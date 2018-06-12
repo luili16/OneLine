@@ -35,5 +35,7 @@ class Point(val x: Int, val y: Int) {
         return result
     }
 
-
+    override fun toString(): String {
+        return "Point(x=$x, y=$y)"
+    }
 }

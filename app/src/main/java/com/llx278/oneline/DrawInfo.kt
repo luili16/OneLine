@@ -36,4 +36,6 @@ data class LineInfo(
          */
         val strokeWidth : Float)
 
+data class LinesInfo(val pointInfos : ArrayList<PointInfo>, val color : Int, val strokeWidth : Float)
+
 data class DrawInfo(val pointInfo: ArrayList<PointInfo>, val lineInfo: ArrayList<LineInfo>)

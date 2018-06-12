@@ -14,16 +14,23 @@ class MainActivity : AppCompatActivity() {
         //val pointColor = Color.RED
         val lineColor = Color.parseColor("#BDBDBD")
         //val lineColor = Color.BLUE
-        val pointInfo = arrayListOf(PointInfo(Point(0,0),pointColor,40f,null),
-                PointInfo(Point(0,3),pointColor,40f,null),
+        val pointInfo = arrayListOf(
+                PointInfo(Point(3,0),pointColor,40f,null),
+                PointInfo(Point(6,0),pointColor,40f,null),
+                PointInfo(Point(6,3),pointColor,40f,null),
+                PointInfo(Point(3,3),pointColor,40f,null),
+                PointInfo(Point(3,0),pointColor,40f,null),
+                PointInfo(Point(0,0),pointColor,40f,null),
                 PointInfo(Point(0,6),pointColor,40f,null),
-                PointInfo(Point(4,3),pointColor,40f,null))
+                PointInfo(Point(6,3),pointColor,40f,null),
+                PointInfo(Point(6,6),pointColor,40f,null),
+                PointInfo(Point(0,6),pointColor,40f,null)
+        )
 
-        val lineInfo = arrayListOf(LineInfo(Point(0,0), Point(0,3),lineColor,40f),
-                LineInfo(Point(0,3),Point(0,6),lineColor,40f),
-                LineInfo(Point(0,6),Point(4,3),lineColor,40f))
-        val drawInfo = DrawInfo(pointInfo = pointInfo,lineInfo = lineInfo)
-
-        one_line.setDrawInfo(drawInfo)
+        val linesInfo = LinesInfo(pointInfos = pointInfo,color = lineColor,strokeWidth = 40f)
+        one_line.setLineInfo(linesInfo)
+        reset.setOnClickListener {
+            one_line.pop()
+        }
     }
 }
