@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="point_colors" >
+        <item>#6495ED</item>
+        <item>#C6E2FF</item>
+        <item>#C67171</item>
+        <item>#BF3EFF</item>
+        <item>#BC8F8F</item>
+        <item>#B4EEB4</item>
+        <item>#AB82FF</item>
+        <item>#A52A2A</item>
+        <item>#CD6839</item>
+        <item>#8B1A1A</item>
+    </array>
+    <array name="line_colors">
+        <item>#EBEBEB</item>
+        <item>#8B8B83</item>
+        <item>#A2B5CD</item>
+        <item>#C4C4C4</item>
+        <item>#CDC0B0</item>
+    </array>
+</resources>
