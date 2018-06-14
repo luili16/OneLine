@@ -3,6 +3,9 @@ package com.llx278.oneline
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import com.llx278.oneline.widget.LinesInfo
+import com.llx278.oneline.widget.Point
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -15,22 +18,26 @@ class MainActivity : AppCompatActivity() {
         val lineColor = Color.parseColor("#BDBDBD")
         //val lineColor = Color.BLUE
         val pointInfo = arrayListOf(
-                PointInfo(Point(3,0),pointColor,40f,null),
-                PointInfo(Point(6,0),pointColor,40f,null),
-                PointInfo(Point(6,3),pointColor,40f,null),
-                PointInfo(Point(3,3),pointColor,40f,null),
-                PointInfo(Point(3,0),pointColor,40f,null),
-                PointInfo(Point(0,0),pointColor,40f,null),
-                PointInfo(Point(0,6),pointColor,40f,null),
-                PointInfo(Point(6,3),pointColor,40f,null),
-                PointInfo(Point(6,6),pointColor,40f,null),
-                PointInfo(Point(0,6),pointColor,40f,null)
+                Point(3, 0),
+                Point(6, 0),
+                Point(6, 3),
+                Point(3, 3),
+                Point(3, 0),
+                Point(0, 0),
+                Point(0, 6),
+                Point(6, 3),
+                Point(6, 6),
+                Point(0, 6)
         )
 
-        val linesInfo = LinesInfo(pointInfos = pointInfo,color = lineColor,strokeWidth = 40f)
+        val linesInfo = LinesInfo(points = pointInfo, color = lineColor, strokeWidth = 40f)
         one_line.setLineInfo(linesInfo)
         reset.setOnClickListener {
             one_line.pop()
+        }
+
+        one_line.finishCallback =  {
+            Log.d("main","绘制完成 回调 lamda")
         }
     }
 }

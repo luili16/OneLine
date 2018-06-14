@@ -1,4 +1,4 @@
-package com.llx278.oneline
+package com.llx278.oneline.widget
 
 /**
  * 定义了每个圆点的坐标
@@ -39,3 +39,5 @@ class Point(val x: Int, val y: Int) {
         return "Point(x=$x, y=$y)"
     }
 }
+
+data class LinesInfo(val points : ArrayList<Point>, val color : Int, val strokeWidth : Float)

@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="trackLine">#228B22</color>
+    <color name="hint_text_color">#474747</color>
 </resources>

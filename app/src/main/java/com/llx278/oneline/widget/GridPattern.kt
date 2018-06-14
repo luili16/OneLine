@@ -1,7 +1,5 @@
-package com.llx278.oneline
+package com.llx278.oneline.widget
 
-import android.graphics.Canvas
-import android.graphics.Paint
 import android.graphics.Rect
 
 class GridPattern {
@@ -78,17 +76,21 @@ class GridPattern {
         for (i in index) {
             val rect = smallRects[i]
             if (rect.contains(x.toInt(), y.toInt())) {
-                return com.llx278.oneline.Point(i / Point.RECT_NUM, i % Point.RECT_NUM)
+                return Point(i / Point.RECT_NUM, i % Point.RECT_NUM)
             }
         }
         return null
     }
 
 
-    fun convertToSmallRect(point: Point): Rect? {
+    fun convertToSmallRect(point: Point): Rect {
         return smallRects[point.x * Point.RECT_NUM + point.y]
     }
 
-    fun drawGride(canvas: Canvas, paint: Paint) {
+    fun convertToXY(point: Point) : android.graphics.PointF {
+        val rect = convertToSmallRect(point)
+        val x = rect.exactCenterX()
+        val y = rect.exactCenterY()
+        return android.graphics.PointF(x,y)
     }
 }

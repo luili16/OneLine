@@ -1,16 +1,15 @@
-package com.llx278.oneline
+package com.llx278.oneline.widget
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
+import com.llx278.oneline.R
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -29,6 +28,11 @@ class OneLineView @JvmOverloads constructor(
 
     private val grid: GridPattern = GridPattern()
     private var pattern: GeometricalPattern? = null
+
+    /**
+     * 设置一个回调函数，当用户绘制成功以后就回调这个函数
+     */
+    var finishCallback: (() -> Unit)? = null
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -79,7 +83,7 @@ class OneLineView @JvmOverloads constructor(
         val right = left + measuredWidth
         val bottom = top + measuredHeight
         grid.decideSize(left, top, right, bottom)
-        pattern?.createAbsAndScreenPoints(grid)
+        pattern?.createPattern(grid)
     }
 
     fun pop() {
@@ -200,7 +204,7 @@ class OneLineView @JvmOverloads constructor(
                 }
 
                 // 如果是其中的一个连通点,那么这个点不应该是上一个trackLine的起点
-                // 还没已经保存的线，那么这个点可以直接绘制
+                // 已经保存的线，那么这个点可以直接绘制
 
                 // 直接绘制
                 if (backTracking.isEmpty()) {
@@ -234,10 +238,10 @@ class OneLineView @JvmOverloads constructor(
                 trackLine!!.endPoint = movingPoint
                 backTracking.push(trackLine!!)
                 if (checkFinish()) {
-                    Log.d("main", "绘制完成!!")
                     hintAnimator.cancel()
-                    pattern?.showAnimation()
+                    pattern?.showFinishAnimation()
                     invalidate()
+                    finishCallback?.invoke()
                     return true
                 }
                 trackLine = TrackLine()
@@ -269,17 +273,21 @@ class OneLineView @JvmOverloads constructor(
         pattern?.draw(canvas!!, grid)
         drawBackStack(canvas!!, trackPaint)
         drawTrackLine(canvas, trackPaint)
-        pattern?.drawPoints(canvas,grid)
+        // 保证最终话的点可以覆盖掉所有线的连接，
+        // 其实这个可以用xfermode来解决，但是对性能有影响
+        pattern?.drawPoints(canvas, grid)
 
         if (backTracking.isNotEmpty()) {
             val lastPoint = backTracking.peek().endPoint
             val rect = grid.convertToSmallRect(lastPoint!!)
-            val x = rect?.exactCenterX() ?: return
+            val x = rect.exactCenterX() ?: return
             val y = rect.exactCenterY()
             trackPaint.style = Paint.Style.FILL
             trackPaint.color = pattern?.getPointColor() ?: return
-            canvas.drawCircle(x,y,radius,trackPaint)
+            canvas.drawCircle(x, y, radius, trackPaint)
         }
+
+        pattern?.drawHint(canvas, grid)
     }
 
     private fun drawTrackLine(canvas: Canvas, trackPaint: Paint) {
@@ -288,7 +296,7 @@ class OneLineView @JvmOverloads constructor(
             trackPaint.strokeWidth = trackLine!!.strokeWidth
             trackPaint.color = trackLine!!.color
             val startRect = grid.convertToSmallRect(trackLine!!.startPoint!!)
-            val startX = startRect!!.exactCenterX()
+            val startX = startRect.exactCenterX()
             val startY = startRect.exactCenterY()
             canvas.drawLine(startX, startY, trackLine!!.trackX, trackLine!!.trackY, trackPaint)
             trackPaint.style = Paint.Style.FILL
@@ -302,9 +310,9 @@ class OneLineView @JvmOverloads constructor(
         for (line in backTracking) {
             val startRect = grid.convertToSmallRect(line.startPoint!!)
             val endRect = grid.convertToSmallRect(line.endPoint!!)
-            val startX = startRect!!.exactCenterX()
+            val startX = startRect.exactCenterX()
             val startY = startRect.exactCenterY()
-            val endX = endRect!!.exactCenterX()
+            val endX = endRect.exactCenterX()
             val endY = endRect.exactCenterY()
             trackPaint.color = line.color
             trackPaint.strokeWidth = line.strokeWidth
@@ -313,7 +321,6 @@ class OneLineView @JvmOverloads constructor(
     }
 
     inner class TrackLine {
-
         val color: Int = resources.getColor(R.color.trackLine)
         val strokeWidth: Float = resources.getDimension(R.dimen.geometrical_line_width)
 

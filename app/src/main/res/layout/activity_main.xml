@@ -14,7 +14,7 @@
         android:text="@string/reset"
         />
 
-    <com.llx278.oneline.OneLineView
+    <com.llx278.oneline.widget.OneLineView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/one_line"

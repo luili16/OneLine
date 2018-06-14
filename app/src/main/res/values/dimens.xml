@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--生成图形点的半径-->
-    <dimen name="geometrical_paint_radius">14dp</dimen>
+    <dimen name="geometrical_point_radius">18dp</dimen>
+    <dimen name="geometrical_point_radius_x4">56dp</dimen>
     <!--生成图形点的宽度-->
     <dimen name="geometrical_line_width">14dp</dimen>
     <!--提示点的最大半径-->
     <dimen name="hint_point_radius">28dp</dimen>
     <!--绘制成功以后所有的点会产生一个向外扩散的动画效果，此值代表扩散的最大半径-->
     <dimen name="draw_success_end_point">42dp</dimen>
+    <!--提示信息的文字的尺寸-->
+    <dimen name="hint_text_size">10sp</dimen>
+    <!-- 提示信息文字绘制线条的粗细-->
+    <dimen name="hint_text_width">2dp</dimen>
 </resources>
