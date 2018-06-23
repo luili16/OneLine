@@ -13,11 +13,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val pointColor = Color.parseColor("#458B74")
-        //val pointColor = Color.RED
-        val lineColor = Color.parseColor("#BDBDBD")
-        //val lineColor = Color.BLUE
-        val pointInfo = arrayListOf(
+       /* val pointInfo = arrayListOf(
                 Point(3, 0),
                 Point(6, 0),
                 Point(6, 3),
@@ -30,7 +26,7 @@ class MainActivity : AppCompatActivity() {
                 Point(0, 6)
         )
 
-        val linesInfo = LinesInfo(points = pointInfo, color = lineColor, strokeWidth = 40f)
+        val linesInfo = LinesInfo(points = pointInfo)
         one_line.setLineInfo(linesInfo)
         reset.setOnClickListener {
             one_line.pop()
@@ -38,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         one_line.finishCallback =  {
             Log.d("main","绘制完成 回调 lamda")
-        }
+        }*/
+
     }
 }

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="point_explode_duration">1500</integer>
+    <integer name="max_num_of_float_view">10</integer>
+    <integer name="max_speed_of_float_view">5</integer>
 </resources>

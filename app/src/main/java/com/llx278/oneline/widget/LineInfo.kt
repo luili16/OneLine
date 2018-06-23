@@ -40,4 +40,4 @@ class Point(val x: Int, val y: Int) {
     }
 }
 
-data class LinesInfo(val points : ArrayList<Point>, val color : Int, val strokeWidth : Float)
+data class LinesInfo(val points : ArrayList<Point>)

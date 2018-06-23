@@ -19,4 +19,13 @@
         <item>#C4C4C4</item>
         <item>#CDC0B0</item>
     </array>
+
+    <array name="float_drawable">
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/bb</item>
+        <item>@drawable/aa</item>
+<!--
+        <item>@drawable/ic_android_black_24dp</item>
+-->
+    </array>
 </resources>
