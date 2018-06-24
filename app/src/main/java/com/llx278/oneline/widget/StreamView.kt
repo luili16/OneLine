@@ -78,7 +78,7 @@ class StreamView @JvmOverloads constructor(
         }
 
         blurScript = ScriptIntrinsicBlur.create(script, Element.U8_4(script))
-
+        blurScript.setRadius(16f)
         // 执行模糊操作
         val task = BlurTask()
         task.start()
