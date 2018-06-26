@@ -1,5 +1,6 @@
 package com.llx278.oneline
 
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -35,6 +36,13 @@ class MainActivity : AppCompatActivity() {
         one_line.finishCallback =  {
             Log.d("main","绘制完成 回调 lamda")
         }*/
+        alarm_bt.setOnClickListener({
+            //stream_view.startAnimation(true)
+        })
 
+        start_bt.setOnClickListener({
+            val intent = Intent(this@MainActivity,SelectActivity::class.java)
+            startActivity(intent)
+        })
     }
 }

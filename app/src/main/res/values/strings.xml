@@ -2,4 +2,6 @@
     <string name="app_name">OneLine</string>
     <string name="reset">reset</string>
     <string name="statr_bt">start button</string>
+    <string name="one_line">1LINE</string>
+    <string name="basic">Basic</string>
 </resources>

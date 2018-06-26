@@ -3,6 +3,7 @@ package com.llx278.oneline.widget
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.support.v8.renderscript.Allocation
 import android.support.v8.renderscript.Element
@@ -10,6 +11,8 @@ import android.support.v8.renderscript.RenderScript
 import android.support.v8.renderscript.ScriptIntrinsicBlur
 
 import android.util.AttributeSet
+import android.view.SurfaceHolder
+import android.view.SurfaceView
 import android.view.View
 import com.llx278.oneline.R
 import java.util.*
@@ -29,9 +32,7 @@ class StreamView @JvmOverloads constructor(
 
     private val properties: Array<Property>
 
-    private val timer: Timer
-
-    private val timeTask: MyTimeTask = MyTimeTask()
+    private var timer: Timer? = null
 
     /**
      * 每隔多少ms更新一次坐标值
@@ -49,6 +50,9 @@ class StreamView @JvmOverloads constructor(
     private val blurScript : ScriptIntrinsicBlur
 
     private val blurFinish : AtomicBoolean = AtomicBoolean(false)
+    private val sizeChanged : AtomicBoolean = AtomicBoolean(false)
+
+    private var animate : Boolean = false
 
     init {
 
@@ -64,8 +68,6 @@ class StreamView @JvmOverloads constructor(
             val height = bitmaps[it].height
             Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
         }
-
-        timer = Timer()
 
         // 创建模糊背景的脚本
         script = RenderScript.create(context)
@@ -93,35 +95,58 @@ class StreamView @JvmOverloads constructor(
             property.x = random.nextInt(w)
             property.y = random.nextInt(h)
         }
+        sizeChanged.set(true)
+    }
 
-        timer.scheduleAtFixedRate(timeTask, 0, basePeriod)
+    fun startAnimation(animate : Boolean) {
+        this.animate = animate
+        if (animate) {
+            val timeTask = MyTimeTask()
+            timer = Timer()
+            timer!!.scheduleAtFixedRate(timeTask, 0, basePeriod)
+        } else {
+            timer?.cancel()
+            timer = null
+        }
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        if (blurFinish.get()) {
-            for (property in properties) {
-                val bitmap = blurBitmaps[property.index]
-                val x = property.x.toFloat()
-                val y = property.y.toFloat()
-                canvas!!.drawBitmap(bitmap, x, y, paint)
+        for (property in properties) {
+            val bitmap = blurBitmaps[property.index]
+            val x = property.x.toFloat()
+            val y = property.y.toFloat()
+            canvas!!.drawBitmap(bitmap, x, y, paint)
+        }
+    }
+
+
+    private inner class MyTimeTask : TimerTask() {
+        override fun run() {
+
+            if (blurFinish.get() && sizeChanged.get()) {
+                // 根据每个property里面的速度的系数，就可以计算出每bitmap的实际移动距离
+                for (property in properties) {
+                    // 只改变x值
+                    property.x += (minUpdateValue * property.speed).toInt() + 1
+                    if (property.x > width) {
+                        property.x = -bitmaps[property.index].width
+                    }
+                }
+                postInvalidate()
             }
         }
     }
 
-    private inner class MyTimeTask : TimerTask() {
-        override fun run() {
-            // 根据每个property里面的速度的系数，就可以计算出每bitmap的实际移动距离
-            for (property in properties) {
-                // 只改变x值
-                property.x += (minUpdateValue * property.speed).toInt() + 1
-                if (property.x > width) {
-                    property.x = -bitmaps[property.index].width
-                }
-            }
-            postInvalidate()
-        }
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        timer?.cancel()
     }
 
     /**
@@ -144,6 +169,7 @@ class StreamView @JvmOverloads constructor(
                 outAllocation.copyTo(blurBitmaps[i])
             }
             blurFinish.set(true)
+            postInvalidate()
         }
     }
 }

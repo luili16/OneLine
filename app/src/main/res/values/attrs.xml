@@ -4,4 +4,9 @@
     <declare-styleable name="StreamView">
         <attr name="floatDrawable" format="reference"/>
     </declare-styleable>
+
+    <declare-styleable name="IndicatorView">
+        <attr name="process_color" format="color"/>
+        <attr name="point_color" format="color"/>
+    </declare-styleable>
 </resources>

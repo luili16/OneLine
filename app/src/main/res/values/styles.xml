@@ -9,7 +9,10 @@
     </style>
 
     <style name="MainActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
     </style>
+
+    <style name="SelectActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
 
 </resources>
