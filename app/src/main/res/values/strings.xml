@@ -4,4 +4,7 @@
     <string name="statr_bt">start button</string>
     <string name="one_line">1LINE</string>
     <string name="basic">Basic</string>
+    <string name="level">LEVEL</string>
+    <string name="default_level">1</string>
+    <string name="pass_total_count">17/50</string>
 </resources>

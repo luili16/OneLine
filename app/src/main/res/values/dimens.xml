@@ -13,4 +13,6 @@
     <dimen name="hint_text_size">10sp</dimen>
     <!-- 提示信息文字绘制线条的粗细-->
     <dimen name="hint_text_width">2dp</dimen>
+
+    <dimen name="space_item_decoration">3dp</dimen>
 </resources>
